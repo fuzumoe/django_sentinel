@@ -31,6 +31,7 @@ repos:
           - -vv
           - --showlocals
           - --capture=tee-sys
+          - --capture=no
           # ↓ enable real-time logging at INFO level (adjust as needed) ↓
           - --log-cli-level=INFO
           - --log-cli-format="%(asctime)s %(levelname)s %(message)s"w captured output even on pass
