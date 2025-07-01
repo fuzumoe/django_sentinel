@@ -1,0 +1,23 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-fix
+        name: Linting with Automatic Fixes
+        entry: ./scripts/ruff.sh
+        args:
+          - check
+          - --fix
+        language: system
+        pass_filenames: false
+      - id: ruff-format
+        name: Formatting
+        entry: ./scripts/ruff.sh
+        args:
+          - format
+        language: system
+        pass_filenames: false
+      - id: mypy
+        name: Type Checking
+        entry: ./scripts/mypy.sh
+        language: system
+        pass_filenames: false

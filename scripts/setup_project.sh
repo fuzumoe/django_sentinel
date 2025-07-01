@@ -40,6 +40,10 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 EOF
 
+ 
+echo "🔧 Initializing pre-commit hooks..."
+pre-commit install
+
 echo "✅ Project setup complete!"
 echo "📋 Next steps:"
 echo "   • Use: uv run python manage.py [command]"
