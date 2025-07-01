@@ -30,7 +30,10 @@ repos:
           - --disable-warnings
           - -vv
           - --showlocals
-          - -s                 # disable capturing to show all output
+          - --capture=tee-sys
+          # ↓ enable real-time logging at INFO level (adjust as needed) ↓
+          - --log-cli-level=INFO
+          - --log-cli-format="%(asctime)s %(levelname)s %(message)s"w captured output even on pass
         language: system
         pass_filenames: false
 
