@@ -184,23 +184,47 @@ Via VS Code:
 ```
 django_sentinel/
 ├── .vscode/                    # VS Code configuration
-│   ├── extensions.json        # Recommended extensions
-│   ├── launch.json            # Debug configurations
-│   ├── settings.json          # Editor settings
-│   └── tasks.json             # Task definitions
-├── pydj_auth/                 # Main Django app
-│   ├── management/            # Custom management commands
+│   ├── extensions.json         # Recommended extensions
+│   ├── launch.json             # Debug configurations
+│   ├── settings.json           # Editor settings
+│   └── tasks.json              # Task definitions
+├── scripts/                    # Utility scripts
+│   ├── setup_project.sh        # Setup automation
+│   ├── ruff.sh                 # Ruff CLI wrapper
+│   └── mypy.sh                 # MyPy CLI wrapper
+├── pydj_auth/                  # Main Django application
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   ├── management/             # Custom management commands
 │   │   └── commands/
-│   │       └── docker_compose.py  # Unified Docker command
-│   ├── models/                # Database models
-│   └── settings.py            # Django settings
-├── docker-compose.yml         # Docker services
-├── Dockerfile                 # Docker build configuration
-├── pyproject.toml            # Project dependencies (uv)
-├── requirements.txt          # Pip requirements
-├── setup_project.sh          # Setup automation script
-├── manage.py                 # Django management
-└── .env                      # Environment variables (create from .env.example)
+│   │       └── docker_compose.py  # Unified Docker Compose management command
+│   ├── migrations/             # Database migrations
+│   │   └── 0001_initial.py
+│   ├── models/                 # Django models
+│   │   └── auth.py
+│   └── tests/                  # Unit and E2E tests
+│       ├── conftest.py
+│       ├── unit/
+│       │   ├── test_docker_compose_py_unit.py
+│       │   └── test_docker_compose_unit.py
+│       └── e2e/
+│           └── test_docker_compose_e2e.py
+├── .pre-commit-config.yaml     # Pre-commit hooks configuration
+├── .flake8                     # Flake8 disabled (Ruff is used)
+├── docker-compose.yml          # Docker service definitions
+├── Dockerfile                  # Docker image build configuration
+├── main.py                     # Entry point (if used)
+├── manage.py                   # Django management utility
+├── pyproject.toml              # Project dependencies and settings (uv)
+├── requirements.txt            # Pip fallback requirements
+├── ruff.toml                   # Ruff configuration
+├── mypy.ini                    # MyPy configuration
+├── uv.lock                     # uv lockfile
+├── .env                        # Environment variables (from .env.example)
+└── README.md                   # Project documentation
 ```
 
 ## 🔌 VS Code Extensions
@@ -220,6 +244,31 @@ The project includes recommended extensions for optimal development:
 ### Productivity
 - **Error Lens** - Inline error display
 - **TODO Highlight** - Task management
+
+## 🛠️ Pre-commit Hooks
+
+We use `pre-commit` to enforce code quality and catch issues early. Hooks run automatically before each commit:
+- **ruff-fix**: Automatic linting and fixes via Ruff
+- **ruff-format**: Code formatting via Ruff
+- **mypy**: Static type checking via MyPy
+- **pytest-all**: Run all tests in `pydj_auth/tests` with verbose output
+
+Install and run manually:
+```bash
+pre-commit install
+pre-commit run --all-files
+```
+
+## 🚀 VS Code Launch Configurations
+
+The `.vscode/launch.json` includes debugger launchers for:
+- **Django: Debug Server** – Run the development server with debugging
+- **Debug All Tests** – Run pytest on all tests (unit and E2E)
+- **Debug Unit Tests** – Run pytest on `pydj_auth/tests/unit`
+- **Debug E2E Tests** – Run pytest on `pydj_auth/tests/e2e`
+- **Docker Compose Up/Down/Restart** – Manage services via the `docker_compose` command
+
+Use **F5** or select from the Run and Debug panel in VS Code to start any configuration.
 
 ## 🔑 Key Features
 
@@ -252,16 +301,9 @@ The project is configured for easy deployment:
 3. **Database Migrations** - Automated via Django
 4. **Static Files** - Django configuration ready
 
-## 🤝 Contributing
+ 
 
-1. Fork the repository
-2. Create a feature branch
-3. Make changes with proper testing
-4. Submit a pull request
-
-## 📝 License
-
-[Add your license information here]
+ 
 
 ---
 

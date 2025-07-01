@@ -1,5 +1,5 @@
 repos:
-  - repo: local
+  - repo: local 
     hooks:
       - id: ruff-fix
         name: Linting with Automatic Fixes
@@ -17,6 +17,7 @@ repos:
         language: system
         pass_filenames: false
       - id: pytest-all
+        verbose: true
         name: Run all tests
         entry: pytest
         args:

@@ -21,3 +21,7 @@ dev = [
 [tool.ruff]
 # Reference to the ruff.toml file for configuration
 extend = "ruff.toml"
+
+[tool.pytest.ini_options]
+addopts = "-vv --capture=tee-sys"
+testpaths = ["pydj_auth/tests"]
