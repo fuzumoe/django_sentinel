@@ -30,5 +30,6 @@ repos:
           - --disable-warnings
           - -vv
           - --showlocals
+          - --capture=tee-sys   # show captured output even on pass
         language: system
         pass_filenames: false
