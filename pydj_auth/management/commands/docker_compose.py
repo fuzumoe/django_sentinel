@@ -152,7 +152,6 @@ class Command(BaseCommand):
         try:
             subprocess.run(cmd, check=True)
             if success_msg:
-                # pylint: disable=no-member
                 self.stdout.write(self.style.SUCCESS(success_msg))
         except subprocess.CalledProcessError as e:
             raise CommandError(f"❌ Docker Compose failed: {e}") from e
