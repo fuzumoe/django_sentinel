@@ -26,6 +26,7 @@ repos:
         entry: pytest
         args:
           - pydj_auth/tests
+          - --verbose
           - --maxfail=1
           - --disable-warnings
           - -q
