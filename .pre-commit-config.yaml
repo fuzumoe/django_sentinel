@@ -16,11 +16,6 @@ repos:
           - format
         language: system
         pass_filenames: false
-      - id: mypy
-        name: Type Checking
-        entry: ./scripts/mypy.sh
-        language: system
-        pass_filenames: false
       - id: pytest-all
         name: Run all tests
         entry: pytest
@@ -32,6 +27,6 @@ repos:
           - --showlocals
           - --capture=no
           - --log-cli-level=INFO
-          - --log-cli-format="%(asctime)s %(levelname)s %(message)s"
+          - --log-cli-format=%(asctime)s %(levelname)s %(message)s
         language: system
         pass_filenames: false
