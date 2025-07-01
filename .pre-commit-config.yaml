@@ -23,7 +23,7 @@ repos:
           - pydj_auth/tests
           - --maxfail=1
           - --disable-warnings
-          - -vv
+          - --verbose
           - --showlocals
           - --capture=no
           - --log-cli-level=INFO
