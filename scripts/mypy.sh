@@ -1,5 +1,7 @@
 #!/bin/bash
 # Script to type-check Python files using MyPy, tailored for CI and Git hooks
+# Determine directory of this script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 exclude=(
     ".venv/" \
     "venv/" \
@@ -9,9 +11,7 @@ exclude=(
 )
 exclude_pattern=$(printf "|^%s" "${exclude[@]}")
 exclude_pattern=${exclude_pattern:1}  # Remove the leading '|'
-
-# Run any custom MyPy wrapper if present (optional)
-python $LOCAL_WORKSPACE_FOLDER/framework/cli/src/if_cli/mypy.py
+ 
 
 # Determine mode: CI or Git hook based on last argument or environment
 if [ "${!#}" = "CI" ]; then
@@ -36,5 +36,6 @@ fi
 # Activate virtual environment and run MyPy on changed files
 if [ -n "$changed_files" ]; then
     source .venv/bin/activate
-    mypy --config-file=/root/innovation-framework/.mypy.ini $changed_files
+    # Use project-level mypy.ini configuration
+    mypy --config-file="$SCRIPT_DIR/../mypy.ini" $changed_files
 fi
