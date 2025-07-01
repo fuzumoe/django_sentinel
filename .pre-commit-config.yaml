@@ -17,6 +17,7 @@ repos:
         language: system
         pass_filenames: false
       - id: pytest-all
+        always_run: true
         name: Run all tests
         entry: pytest
         args:
