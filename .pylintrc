@@ -1,0 +1,13 @@
+# Create .pylintrc
+[MASTER]
+load-plugins = pylint_django
+
+[DJANGO]
+django-settings-module = pydj_auth.settings
+
+[FORMAT]
+max-line-length = 88
+
+[MESSAGES CONTROL]
+# Let Ruff handle these
+disable = C0114, C0116, E1101, missing-module-docstring

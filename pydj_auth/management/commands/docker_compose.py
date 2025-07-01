@@ -1,29 +1,3 @@
-"""
-Django management command for Docker Compose operations.
-
-This module provides a unified interface for managing Docker Compose services
-through Django's management command system. It supports all common Docker
-Compose operations including starting, stopping, restarting services, viewing
-logs, and checking service status.
-
-Usage:
-    python manage.py docker_compose <subcommand> [options]
-
-Available subcommands:
-    - up: Start services (with optional --logs flag)
-    - down: Stop services (with optional --volumes flag)
-    - restart: Restart all services
-    - logs: View service logs (with optional service name and --follow flag)
-    - status: Show current service status
-
-Examples:
-    python manage.py docker_compose up
-    python manage.py docker_compose up --logs
-    python manage.py docker_compose down --volumes
-    python manage.py docker_compose logs db
-    python manage.py docker_compose status
-"""
-
 import subprocess
 from typing import Any
 
@@ -120,8 +94,7 @@ class Command(BaseCommand):
         """Handle the 'restart' subcommand to restart services."""
         self.stdout.write("🔄 Restarting Docker Compose services...")
         self._run_command(
-            ["docker-compose", "restart"],
-            "✅ Docker Compose restarted successfully!"
+            ["docker-compose", "restart"], "✅ Docker Compose restarted successfully!"
         )
 
     def _handle_logs(self, options: dict[str, Any]) -> None:
@@ -145,9 +118,7 @@ class Command(BaseCommand):
         self.stdout.write("📊 Docker Compose service status:")
         self._run_command(["docker-compose", "ps"])
 
-    def _run_command(
-        self, cmd: list[str], success_msg: str | None = None
-    ) -> None:
+    def _run_command(self, cmd: list[str], success_msg: str | None = None) -> None:
         """Execute a Docker Compose command with error handling."""
         try:
             subprocess.run(cmd, check=True)
