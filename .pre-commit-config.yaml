@@ -25,6 +25,7 @@ repos:
         name: Run all tests
         entry: pytest
         args:
+          - pydj_auth/tests
           - --maxfail=1
           - --disable-warnings
           - -q
