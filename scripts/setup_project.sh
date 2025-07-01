@@ -3,31 +3,44 @@
 
 echo "🚀 Setting up Django Sentinel project..."
 
-# Create .venv if it doesn't exist
-if [ ! -d ".venv" ]; then
-    echo "📦 Creating Python virtual environment..."
-    python3 -m venv .venv
+# Install uv CLI via the official installer
+echo "🛠️ Checking for uv installation..."
+if ! command -v uv &> /dev/null; then
+    echo "📦 Installing uv CLI tool..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    # Ensure uv is in PATH
+    export PATH="$HOME/.cargo/bin:$PATH"
+    echo "✅ uv installed successfully!"
+else
+    echo "✅ uv already installed!"
 fi
+
+# Create or recreate .venv
+echo "📦 Creating Python virtual environment with uv..."
+if [ -d ".venv" ]; then
+    echo "🔧 Removing existing virtual environment..."
+    rm -rf .venv
+fi
+uv venv
 
 # Activate virtual environment
 echo "🔧 Activating virtual environment..."
 source .venv/bin/activate
 
-# Install requirements
-if [ -f "requirements.txt" ]; then
-    echo "📦 Installing Python dependencies from requirements.txt..."
-    pip install -r requirements.txt
-else
-    echo "⚠️  No requirements.txt found, skipping dependency installation"
-fi
+# Install requirements with uv
+ 
+echo "⚠️  No requirements.txt found, using pyproject.toml..."
+uv pip sync -- --dev
+ 
 
-# Install additional dependencies with uv
-echo "📦 Installing additional dependencies..."
-uv add psycopg2-binary python-dotenv
+# Install additional dependencies with uv if needed
+echo "📦 Ensuring core dependencies are installed..."
+uv pip install --no-deps psycopg2-binary python-dotenv gunicorn
 
 # Set up uv environment variables
 export UV_PROJECT_ENVIRONMENT=.venv
-export VIRTUAL_ENV="$(pwd)/.venv"
+VIRTUAL_ENV="$(pwd)/.venv"
+export VIRTUAL_ENV
 export PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Create .env file with PostgreSQL configuration
@@ -38,6 +51,12 @@ POSTGRES_PASSWORD=auth_secret
 POSTGRES_DB=auth_db
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
+
+# Django Configuration
+DEBUG=True
+SECRET_KEY=django-insecure-development-key-replace-in-production
+ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+DJANGO_SETTINGS_MODULE=pydj_auth.settings
 EOF
 
  
