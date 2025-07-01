@@ -12,6 +12,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ruff>=0.8.0",
+    "mypy>=1.0.0",
+    "django-stubs[compatible-mypy]>=4.2.0",
 ]
 
 [tool.ruff]

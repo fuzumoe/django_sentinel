@@ -1,5 +1,5 @@
 import uuid
-from typing import ClassVar
+from typing import Any, ClassVar
 
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -9,8 +9,10 @@ from django.contrib.auth.models import (
 from django.db import models
 
 
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+class UserManager(BaseUserManager["User"]):
+    def create_user(
+        self, email: str, password: str | None = None, **extra_fields: Any
+    ) -> "User":
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
@@ -19,7 +21,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(
+        self, email: str, password: str | None = None, **extra_fields: Any
+    ) -> "User":
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
@@ -45,5 +49,5 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS: ClassVar[list] = []
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.email

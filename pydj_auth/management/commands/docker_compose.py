@@ -25,6 +25,7 @@ Examples:
 """
 
 import subprocess
+from typing import Any
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -34,7 +35,7 @@ class Command(BaseCommand):
 
     help = "Manage Docker Compose services"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: Any) -> None:
         """Define command line arguments for Docker Compose subcommands."""
         subparsers = parser.add_subparsers(
             dest="action", help="Docker Compose actions", required=True
@@ -77,7 +78,7 @@ class Command(BaseCommand):
         # Status command
         subparsers.add_parser("status", help="Show service status")
 
-    def handle(self, *args, **options):
+    def handle(self, *args: Any, **options: Any) -> None:
         """Handle the Docker Compose command execution."""
         action = options["action"]
 
@@ -90,9 +91,9 @@ class Command(BaseCommand):
         elif action == "logs":
             self._handle_logs(options)
         elif action == "status":
-            self._handle_status()
+            self._handle_status(options)
 
-    def _handle_up(self, options):
+    def _handle_up(self, options: dict[str, Any]) -> None:
         """Handle the 'up' subcommand to start Docker Compose services."""
         if options["logs"]:
             cmd = ["docker-compose", "up"]
@@ -103,7 +104,7 @@ class Command(BaseCommand):
 
         self._run_command(cmd, "✅ Docker Compose started successfully!")
 
-    def _handle_down(self, options):
+    def _handle_down(self, options: dict[str, Any]) -> None:
         """Handle the 'down' subcommand to stop Docker Compose services."""
         cmd = ["docker-compose", "down"]
         if options["volumes"]:
@@ -115,7 +116,7 @@ class Command(BaseCommand):
 
         self._run_command(cmd, "✅ Docker Compose stopped successfully!")
 
-    def _handle_restart(self):
+    def _handle_restart(self) -> None:
         """Handle the 'restart' subcommand to restart services."""
         self.stdout.write("🔄 Restarting Docker Compose services...")
         self._run_command(
@@ -123,7 +124,7 @@ class Command(BaseCommand):
             "✅ Docker Compose restarted successfully!"
         )
 
-    def _handle_logs(self, options):
+    def _handle_logs(self, options: dict[str, Any]) -> None:
         """Handle the 'logs' subcommand to view service logs."""
         cmd = ["docker-compose", "logs"]
 
@@ -139,12 +140,14 @@ class Command(BaseCommand):
 
         self._run_command(cmd)
 
-    def _handle_status(self):
+    def _handle_status(self, options: dict[str, Any]) -> None:
         """Handle the 'status' subcommand to show service status."""
         self.stdout.write("📊 Docker Compose service status:")
         self._run_command(["docker-compose", "ps"])
 
-    def _run_command(self, cmd, success_msg=None):
+    def _run_command(
+        self, cmd: list[str], success_msg: str | None = None
+    ) -> None:
         """Execute a Docker Compose command with error handling."""
         try:
             subprocess.run(cmd, check=True)
