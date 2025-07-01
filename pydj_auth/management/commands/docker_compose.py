@@ -91,7 +91,7 @@ class Command(BaseCommand):
         elif action == "logs":
             self._handle_logs(options)
         elif action == "status":
-            self._handle_status(options)
+            self._handle_status()
 
     def _handle_up(self, options: dict[str, Any]) -> None:
         """Handle the 'up' subcommand to start Docker Compose services."""
@@ -140,7 +140,7 @@ class Command(BaseCommand):
 
         self._run_command(cmd)
 
-    def _handle_status(self, options: dict[str, Any]) -> None:
+    def _handle_status(self) -> None:
         """Handle the 'status' subcommand to show service status."""
         self.stdout.write("📊 Docker Compose service status:")
         self._run_command(["docker-compose", "ps"])
