@@ -212,8 +212,8 @@ django_sentinel/
 │       │   └── test_docker_compose_unit.py
 │       └── e2e/
 │           └── test_docker_compose_e2e.py
-├── .pre-commit-config.yaml     # Pre-commit hooks configuration
-├── .flake8                     # Flake8 disabled (Ruff is used)
+├── .pylintrc                   # Pylint configuration
+├── .pre-commit-config.yaml     # Pre-commit hooks configuration 
 ├── docker-compose.yml          # Docker service definitions
 ├── Dockerfile                  # Docker image build configuration
 ├── main.py                     # Entry point (if used)

@@ -18,5 +18,18 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "test":
+        import subprocess
+        # Map custom test shortcuts to pytest args
+        if len(sys.argv) > 2 and sys.argv[2] == "unit":
+            pytest_args = ["pytest", "pydj_auth/tests/unit"] + sys.argv[3:]
+        elif len(sys.argv) > 2 and sys.argv[2] == "e2e":
+            pytest_args = ["pytest", "pydj_auth/tests/e2e"] + sys.argv[3:]
+        elif len(sys.argv) > 2:
+            pytest_args = ["pytest"] + sys.argv[2:]
+        else:
+            pytest_args = ["pytest", "pydj_auth/tests"] + sys.argv[3:]
+        raise SystemExit(subprocess.call(pytest_args))
     main()

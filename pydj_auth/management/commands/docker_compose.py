@@ -97,7 +97,10 @@ class Command(BaseCommand):
             ["docker-compose", "restart"], "✅ Docker Compose restarted successfully!"
         )
 
-    def _handle_logs(self, options: dict[str, Any]) -> None:
+    def _handle_logs(
+        self,
+        options: dict[str, Any],
+    ) -> None:
         """Handle the 'logs' subcommand to view service logs."""
         cmd = ["docker-compose", "logs"]
 
